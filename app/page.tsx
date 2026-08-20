@@ -3,6 +3,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import type { Destination } from "@/lib/supabase";
 import { accentFor } from "./accent";
+import NewAlbum from "./NewAlbum";
 
 export const revalidate = 0;
 
@@ -31,7 +32,7 @@ export default async function Home() {
   const destinations = await getDestinations();
 
   return (
-    <main className="flex-1 pb-[calc(var(--sab)+2.5rem)]">
+    <main className="flex-1 pb-[calc(var(--sab)+7rem)]">
       {/* Bloque de tinta plana: lo primero que se ve al abrir. */}
       <header className="halftone gutter rounded-b-[2rem] bg-ultra pt-[calc(var(--sat)+2.25rem)] pb-8 text-paper">
         <p className="font-label text-[10px] font-medium tracking-[0.24em] uppercase text-paper/70">
@@ -73,8 +74,8 @@ export default async function Home() {
           <div className="mt-3 rounded-card border border-dashed border-line bg-card px-5 py-8 text-center">
             <p className="title-sm text-[19px]">Todavía no hay destinos</p>
             <p className="mt-2 text-[14px] leading-snug text-ink-soft">
-              En cuanto se dé de alta el primero, aparecerá aquí listo para
-              llenarse de fotos.
+              Toca «Nuevo álbum» y crea el primero: tendrás su dirección
+              lista para grabar en una pegatina NFC.
             </p>
           </div>
         ) : (
@@ -161,6 +162,8 @@ export default async function Home() {
           </p>
         </footer>
       </section>
+
+      <NewAlbum />
     </main>
   );
 }
