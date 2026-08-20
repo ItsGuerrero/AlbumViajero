@@ -1,56 +1,245 @@
 @import "tailwindcss";
 
-:root {
-  --ink: #101a2e;
-  --ink-soft: #1c2b48;
-  --paper: #f2ead9;
-  --paper-soft: #e9dfc8;
-  --brass: #c79a3d;
-  --brass-soft: #e0b962;
-  --stamp-red: #a8402f;
-  --stamp-blue: #2c4a6e;
+/* ------------------------------------------------------------------ *
+ * Álbum Viajero — "riso zine"
+ * Tintas planas saturadas sobre papel porcelana frío. Todo el diseño
+ * está pensado para un único contexto: navegador móvil, en vertical,
+ * con el móvil en una mano.
+ * ------------------------------------------------------------------ */
+
+@theme {
+  /* Tintas */
+  --color-ink: oklch(21% 0.04 272);
+  --color-ink-soft: oklch(45% 0.03 272);
+  --color-ink-mute: oklch(62% 0.02 272);
+
+  /* Papel */
+  --color-paper: oklch(97.2% 0.006 260);
+  --color-card: oklch(100% 0 0);
+  --color-line: oklch(89.5% 0.011 262);
+
+  /* Color de marca + acento de acción */
+  --color-ultra: oklch(47% 0.23 268);
+  --color-ultra-deep: oklch(33% 0.17 268);
+  --color-flare: oklch(68% 0.19 38);
+  --color-flare-deep: oklch(54% 0.16 36);
+
+  /* Tintas de rotación por destino */
+  --color-teal: oklch(62% 0.12 200);
+  --color-violet: oklch(52% 0.2 305);
+  --color-zest: oklch(89% 0.19 120);
+
+  --radius-card: 1.25rem;
+  --radius-sheet: 1.75rem;
+
+  --ease-tap: cubic-bezier(0.2, 0.8, 0.3, 1);
+
+  --animate-fade: riso-fade 180ms var(--ease-tap) both;
+  --animate-rise: riso-rise 260ms var(--ease-tap) both;
+
+  @keyframes riso-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes riso-rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 10px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
 }
 
 @theme inline {
-  --color-ink: var(--ink);
-  --color-ink-soft: var(--ink-soft);
-  --color-paper: var(--paper);
-  --color-paper-soft: var(--paper-soft);
-  --color-brass: var(--brass);
-  --color-brass-soft: var(--brass-soft);
-  --color-stamp-red: var(--stamp-red);
-  --color-stamp-blue: var(--stamp-blue);
-  --font-display: var(--font-fraunces);
-  --font-body: var(--font-work-sans);
-  --font-label: var(--font-plex-mono);
+  --font-sans: var(--f-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--f-display), ui-sans-serif, system-ui, sans-serif;
+  --font-label: var(--f-label), ui-monospace, "SF Mono", monospace;
 }
 
-body {
-  background: var(--ink);
-  color: var(--paper);
-  font-family: var(--font-body), "Work Sans", ui-sans-serif, sans-serif;
+:root {
+  /* Safe areas de iOS expuestas como variables reutilizables. */
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  color-scheme: light;
 }
 
-.airmail-border {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    var(--stamp-red),
-    var(--stamp-red) 12px,
-    var(--paper) 12px,
-    var(--paper) 24px,
-    var(--stamp-blue) 24px,
-    var(--stamp-blue) 36px,
-    var(--paper) 36px,
-    var(--paper) 48px
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Nada de resaltado azul de iOS ni retardo de 300ms al tocar. */
+  a,
+  button,
+  label,
+  summary,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* 16px reales: por debajo de eso Safari hace zoom al enfocar. */
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+
+  ::selection {
+    background-color: var(--color-zest);
+    color: var(--color-ink);
+  }
+}
+
+/* Área táctil mínima recomendada. */
+@utility touch-44 {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Margen lateral que respeta el notch en horizontal. */
+@utility gutter {
+  padding-left: max(1.25rem, var(--sal));
+  padding-right: max(1.25rem, var(--sar));
+}
+
+/* Feedback táctil barato: solo transform. */
+@utility tap {
+  transition:
+    transform 140ms var(--ease-tap),
+    background-color 140ms var(--ease-tap),
+    border-color 140ms var(--ease-tap);
+  &:active {
+    transform: scale(0.975);
+  }
+}
+
+/* Botón "impreso": sombra dura desplazada que se hunde al pulsar. */
+@utility press {
+  --press-c: var(--color-ink);
+  box-shadow: 3px 3px 0 0 var(--press-c);
+  transition:
+    transform 120ms var(--ease-tap),
+    box-shadow 120ms var(--ease-tap),
+    background-color 120ms var(--ease-tap);
+  &:active:not(:disabled) {
+    transform: translate3d(3px, 3px, 0);
+    box-shadow: 0 0 0 0 var(--press-c);
+  }
+}
+
+/* Trama de puntos tipo risografía sobre los bloques de tinta plana. */
+@utility halftone {
+  background-image: radial-gradient(
+    circle at center,
+    rgb(255 255 255 / 0.16) 1px,
+    transparent 1.2px
+  );
+  background-size: 13px 13px;
+}
+
+/* Capas modales: sin rebote de scroll hacia la página de debajo. */
+@utility scroll-lock {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Titulares
+ * Bricolage es variable en opsz (12-96) y wdth (75-100). Se fijan a mano
+ * en vez de dejarlo al font-optical-sizing automático para controlar el
+ * corte exacto en cada tamaño.
+ * ------------------------------------------------------------------ */
+
+@utility title {
+  font-family: var(--f-display), ui-sans-serif, system-ui, sans-serif;
+  /* A tamaño de titular el corte se afina y cierra el espaciado. */
+  font-variation-settings: "opsz" 52;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 0.94;
+}
+
+@utility title-sm {
+  font-family: var(--f-display), ui-sans-serif, system-ui, sans-serif;
+  /* Un punto más estrecho: los nombres largos caben en pantallas de 375px. */
+  font-variation-settings:
+    "opsz" 24,
+    "wdth" 96;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+}
+
+/* ------------------------------------------------------------------ *
+ * Color por destino
+ * --accent puede venir de la base de datos (accent_color), así que
+ * nunca se usa en crudo detrás de texto: se mezcla con blanco o negro
+ * para garantizar contraste sea cual sea el tono.
+ * ------------------------------------------------------------------ */
+
+@utility accent-solid {
+  background-color: var(--accent, var(--color-ultra));
+}
+
+@utility accent-tint {
+  background-color: color-mix(in oklab, var(--accent, var(--color-ultra)) 14%, white);
+}
+
+@utility accent-ink {
+  color: color-mix(in oklab, var(--accent, var(--color-ultra)) 62%, black);
+}
+
+@utility accent-edge {
+  border-color: color-mix(in oklab, var(--accent, var(--color-ultra)) 30%, white);
+}
+
+/* Bloque oscuro para el héroe sin portada: siempre admite texto blanco. */
+@utility accent-block {
+  background-color: color-mix(in oklab, var(--accent, var(--color-ultra)) 72%, black);
+  background-image: linear-gradient(
+    155deg,
+    color-mix(in oklab, var(--accent, var(--color-ultra)) 88%, black) 0%,
+    color-mix(in oklab, var(--accent, var(--color-ultra)) 40%, black) 100%
   );
 }
 
-.tape {
-  background: repeating-linear-gradient(
-    135deg,
-    rgba(242, 234, 217, 0.9),
-    rgba(242, 234, 217, 0.9) 4px,
-    rgba(242, 234, 217, 0.75) 4px,
-    rgba(242, 234, 217, 0.75) 8px
+/* Velo sobre la foto de portada para que el título siempre se lea. */
+@utility accent-scrim {
+  background-image: linear-gradient(
+    to top,
+    color-mix(in oklab, var(--accent, var(--color-ultra)) 40%, black) 0%,
+    color-mix(in oklab, var(--accent, var(--color-ultra)) 30%, black) 28%,
+    rgb(0 0 0 / 0.28) 62%,
+    rgb(0 0 0 / 0.1) 100%
   );
 }
