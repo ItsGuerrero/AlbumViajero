@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #101a2e;
+  --ink-soft: #1c2b48;
+  --paper: #f2ead9;
+  --paper-soft: #e9dfc8;
+  --brass: #c79a3d;
+  --brass-soft: #e0b962;
+  --stamp-red: #a8402f;
+  --stamp-blue: #2c4a6e;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-paper: var(--paper);
+  --color-paper-soft: var(--paper-soft);
+  --color-brass: var(--brass);
+  --color-brass-soft: var(--brass-soft);
+  --color-stamp-red: var(--stamp-red);
+  --color-stamp-blue: var(--stamp-blue);
+  --font-display: var(--font-fraunces);
+  --font-body: var(--font-work-sans);
+  --font-label: var(--font-plex-mono);
+}
+
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-body), "Work Sans", ui-sans-serif, sans-serif;
+}
+
+.airmail-border {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--stamp-red),
+    var(--stamp-red) 12px,
+    var(--paper) 12px,
+    var(--paper) 24px,
+    var(--stamp-blue) 24px,
+    var(--stamp-blue) 36px,
+    var(--paper) 36px,
+    var(--paper) 48px
+  );
+}
+
+.tape {
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(242, 234, 217, 0.9),
+    rgba(242, 234, 217, 0.9) 4px,
+    rgba(242, 234, 217, 0.75) 4px,
+    rgba(242, 234, 217, 0.75) 8px
+  );
+}
