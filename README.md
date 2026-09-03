@@ -8,6 +8,8 @@ Web del proyecto de imanes NFC: cada imán del frigorífico esconde un destino d
 ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
+**🔗 Demo en vivo:** [albumviajero.vercel.app](https://albumviajero.vercel.app)
+
 ## ✨ Funcionalidades
 
 - 📍 Una página por destino (`/tunez`, `/roma`, ...): galería de fotos con visor a pantalla completa y gestos de deslizar.
@@ -60,7 +62,9 @@ NEXT_PUBLIC_SUPABASE_URL=https://aqghbbyydwhfihshtiyf.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<la clave anon del proyecto>
 ```
 
-## ☁️ Despliegue en Vercel
+## ☁️ Despliegue
+
+Ya está publicado en Vercel: **[albumviajero.vercel.app](https://albumviajero.vercel.app)**. Si necesitas volver a desplegarlo (por ejemplo, en otra cuenta):
 
 - Sube esta carpeta a un repositorio de GitHub (o usa `npx vercel` desde aquí mismo con tu propia cuenta).
 - En [vercel.com](https://vercel.com), Add New → Project, e importa el repositorio. Vercel detecta Next.js automáticamente.
@@ -81,5 +85,5 @@ El álbum aparece automáticamente en `tudominio.com/roma` y en la portada del �
 ## 📌 Estado actual
 
 - ✅ Backend en Supabase funcionando (proyecto `album-viajero-nfc`).
-- ✅ Frontend construido y compilando sin errores.
-- ⏳ Pendiente: publicarlo en un hosting definitivo (Vercel) para grabar la URL final en los imanes.
+- ✅ Frontend desplegado y en producción en [albumviajero.vercel.app](https://albumviajero.vercel.app).
+- ⏳ Pendiente: dar de alta los destinos reales y grabar sus URLs en los imanes NFC.
